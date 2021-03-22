@@ -1,0 +1,249 @@
+.musician__container {
+    width: 80%;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.musician__title {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.musician__title h2 {
+    font-size: 18px;
+    margin: 0;
+    padding: 5px 10px;
+    color: #E23229;
+    border-bottom: 1px solid #E23229;
+    margin-bottom: -1px;
+    display: inline-block;
+}
+.musician__title__add {
+    padding-right: 10px;
+    color: #E23229;
+    font-size: 20px;
+}
+.musician__title__add i {
+    color: #E23229;
+}
+
+.musician__table {
+    width: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.musician__table i {
+    color: #fff;
+}
+.musician__table thead {
+    background: rgba(255, 255, 255, 0.3);
+}
+.musician__table thead th {
+    padding: 8px 10px;
+    font-weight: 400;
+}
+.musician__table tbody tr {
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.5s;
+}
+.musician__table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.musician__table td {
+    padding: 8px 10px;
+}
+.musician__table td i {
+    transition: color 0.3s;
+}
+.musician__table td i:hover {
+    color: #E23229;
+}
+
+/* musician EDIT */
+
+.musician__edit__container {
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+}
+
+.musician__edit__title {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.musician__edit__title h2 {
+    font-size: 18px;
+    margin: 0;
+    padding: 5px 10px;
+    color: #000;
+    border-bottom: 1px solid #000;
+    margin-bottom: -1px;
+    display: inline-block;
+}
+
+.musician__edit__content {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 80px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.musician__edit__title__add {
+    padding-right: 10px;
+    color: #000;
+    font-size: 20px;
+}
+
+.input__musician {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 3px;
+}
+.input__date {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 300;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 0;
+    margin-top: 3px;
+}
+.input__musician::placeholder {
+    color: #999;
+}
+.select_musician {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 300;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 0;
+    margin-top: 3px;
+}
+.select_musician option {
+    background: #000;
+    color: #ddd;
+    padding: 20px;
+    height: 100px;
+}
+
+.btn__musician {
+    background: #E23229;
+    color: #fff;
+    margin-top: 5px;
+    border: transparent;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: opacity 0.5s;
+    outline: transparent;
+}
+.btn__musician:focus {
+    outline: transparent;
+}
+.btn__musician:hover {
+    opacity: 0.8;
+}
+
+/* musician DELETE */
+
+.delete__container {
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.delete__content {
+    background: #fff;
+    color: #000;
+    width: 600px;
+    height: 200px;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: showPopup 0.3s 1;
+}
+@keyframes showPopup{
+    0% { transform: scale(0); }
+    80% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+.delete__close {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+}
+.delete__message {
+
+}
+.delete__btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.delete__btn__confirm, .delete__btn__cancel {
+    border: transparent;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    border-radius: 3px;
+    transition: opacity 0.3s;
+}
+.delete__btn__confirm:focus, .delete__btn__cancel:focus {
+    outline: transparent;
+}
+.delete__btn__confirm {
+    background: #f75252;
+    color: #fff;
+}
+.delete__btn__confirm:hover, .delete__btn__cancel:hover {
+    opacity: 0.8;
+}
+
+.delete__btn__cancel {
+    background: #aaa;
+    color: #fff;
+}
+
+/* PAGE */
+.musician__page{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2px;
+    justify-content: flex-end;
+}
+.musician__page__item {
+    background: rgba(255, 255, 255, 0.2);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2px;
+    border-radius: 3px;
+}
+.musician__page__pointer {
+    cursor: pointer;
+}

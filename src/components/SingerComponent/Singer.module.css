@@ -1,0 +1,275 @@
+.singer__container {
+    width: 80%;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.singer__title {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.singer__title h2 {
+    font-size: 18px;
+    margin: 0;
+    padding: 5px 10px;
+    color: #E23229;
+    border-bottom: 1px solid #E23229;
+    margin-bottom: -1px;
+    display: inline-block;
+}
+.singer__title__add {
+    padding-right: 10px;
+    color: #E23229;
+    font-size: 20px;
+}
+.singer__title__add i {
+    color: #E23229;
+}
+
+.singer__table {
+    width: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.singer__table i {
+    color: #fff;
+}
+.singer__table thead {
+    background: rgba(255, 255, 255, 0.3);
+}
+.singer__table thead th {
+    padding: 8px 10px;
+    font-weight: 400;
+}
+.singer__table tbody tr {
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.5s;
+}
+.singer__table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.singer__table td {
+    padding: 8px 10px;
+}
+.singer__table td a {
+    text-decoration: underline;
+    color: #fff;
+}
+.singer__table td i {
+    transition: color 0.3s;
+}
+.singer__table td i:hover {
+    color: #E23229;
+}
+
+/* singer EDIT */
+
+.singer__edit__container {
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+}
+
+.singer__edit__title {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.singer__edit__title h2 {
+    font-size: 18px;
+    margin: 0;
+    padding: 5px 10px;
+    color: #000;
+    border-bottom: 1px solid #000;
+    margin-bottom: -1px;
+    display: inline-block;
+}
+
+.singer__edit__content {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 80px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.singer__edit__title__add {
+    padding-right: 10px;
+    color: #000;
+    font-size: 20px;
+}
+
+.input__singer {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 3px;
+}
+.input__date {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 300;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 0;
+    margin-top: 3px;
+}
+.input__singer::placeholder {
+    color: #999;
+}
+.select_singer {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 300;
+    border: 1px solid #000;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 0;
+    margin-top: 3px;
+}
+.select_singer option {
+    background: #000;
+    color: #ddd;
+    padding: 20px;
+    height: 100px;
+}
+
+.btn__singer {
+    background: #E23229;
+    color: #fff;
+    margin-top: 5px;
+    border: transparent;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: opacity 0.5s;
+    outline: transparent;
+}
+.btn__singer:focus {
+    outline: transparent;
+}
+.btn__singer:hover {
+    opacity: 0.8;
+}
+
+/* singer DELETE */
+
+.delete__container {
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.delete__content {
+    background: #fff;
+    color: #000;
+    width: 600px;
+    height: 200px;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: showPopup 0.3s 1;
+}
+@keyframes showPopup{
+    0% { transform: scale(0); }
+    80% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+.delete__close {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+}
+.delete__message {
+
+}
+.delete__btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.delete__btn__confirm, .delete__btn__cancel {
+    border: transparent;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    border-radius: 3px;
+    transition: opacity 0.3s;
+}
+.delete__btn__confirm:focus, .delete__btn__cancel:focus {
+    outline: transparent;
+}
+.delete__btn__confirm {
+    background: #f75252;
+    color: #fff;
+}
+.delete__btn__confirm:hover, .delete__btn__cancel:hover {
+    opacity: 0.8;
+}
+
+.delete__btn__cancel {
+    background: #aaa;
+    color: #fff;
+}
+
+/* PAGE */
+.singer__page{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2px;
+    justify-content: flex-end;
+}
+.singer__page__item {
+    background: rgba(255, 255, 255, 0.2);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2px;
+    border-radius: 3px;
+}
+.singer__page__pointer {
+    cursor: pointer;
+}
+
+/* SINGER DETAIL */
+
+.singer__detail_container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+.singer__detail_info {
+    display: flex;
+    flex-wrap: wrap;
+}
+.singer__detail_info_left {
+    width: 120px;
+}
+.singer__detail_info_right {
+    width: calc(100% - 120px);
+}
