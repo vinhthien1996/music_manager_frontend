@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import style from "./Song.module.css";
 import { Link } from "react-router-dom";
 import Message from '../MessageComponent/Message';
-import { LINK_API } from "../../const";
+import { LINK_API, MAX_SIZE } from "../../const";
 
 export default function SongEdit(props) {
 
@@ -11,6 +11,7 @@ export default function SongEdit(props) {
     const [listGenre, setListGenre] = useState([]);
     const [listMusician, setListMusician] = useState([]);
     const [listSinger, setListSinger] = useState([]);
+    const [upload, setUpload] = useState({ title: 'Upload Song', file: null });
 
     // GET GENRE
     const getAllGenre = (p) => {
@@ -49,7 +50,7 @@ export default function SongEdit(props) {
     }
 
     // GET SINGER
-    const getAllSinger = (p) => {
+    const getAllSinger = () => {
         axios.get(`${LINK_API}/api/singer`)
             .then(result => {
                 setListSinger(result.data);
@@ -77,6 +78,7 @@ export default function SongEdit(props) {
                 const data = result.data;
                 data.release_time = formatDate(data.release_time);
                 setState({ ...state, song: data });
+                setUpload({...upload, title: data.url});
             })
             .catch(err => console.log(err));
     }
@@ -101,15 +103,18 @@ export default function SongEdit(props) {
         } else if (!state.song.release_time) {
             setState({ ...state, message: "Release time is not null!", type: "error" });
         } else {
-            axios.put(`${LINK_API}/api/song/${state.song.song_id}`, {
-                "song_id": state.song.song_id,
-                "song_name": state.song.song_name,
-                "release_time": state.song.release_time,
-                "genre_name": state.song.genre_name,
-                "musician_name": state.song.musician_name,
-                "singer_name": state.song.singer_name,
-                "favorite": state.song.favorite
-            }, { headers: { 'Content-Type': 'application/json' } })
+            const formData = new FormData();
+            formData.append('file', upload.file);
+            formData.append('song_name', state.song.song_name);
+            formData.append('release_time', state.song.release_time + " 00:00:00");
+            formData.append('genre_name', state.song.genre_name);
+            formData.append('musician_name', state.song.musician_name);
+            formData.append('singer_name', state.song.singer_name);
+            axios.put(`${LINK_API}/api/song/${state.song.song_id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            })
                 .then(result => {
                     setState({ ...state, message: "", type: "" });
                     setState({ ...state, message: "Updated song successfully!", type: "success" });
@@ -124,6 +129,24 @@ export default function SongEdit(props) {
     // CLOSE MESSAGE
     const closeMessage = () => {
         setState({ ...state, message: "" });
+    }
+
+    // HANDLE UPLOAD SONG
+    const handleUpload = (event) => {
+        // event.target.value = null;
+        // SIZE Math.round(event.target.files[0].size / (1024 * 1024) * 100) / 100;
+        if (event.target.files[0].type !== 'audio/mpeg') {
+            setState({ ...state, message: "Only allow upload mp3 files!", type: "error" });
+            event.target.value = null;
+            setUpload({ ...upload, title: 'Upload Song' });
+        } else if (event.target.files[0].size > MAX_SIZE) { // MAX SIZE 20MB
+            setState({ ...state, message: "File size must under 20MB!", type: "error" });
+            event.target.value = null;
+            setUpload({ ...upload, title: 'Upload Song' });
+        } else {
+            setState({ ...state, message: "", type: "" });
+            setUpload({ ...upload, title: event.target.files[0].name, file: event.target.files[0] });
+        }
     }
 
     return (
@@ -182,6 +205,8 @@ export default function SongEdit(props) {
                 </div>
             </div>
             <input type="date" defaultValue={state.song.release_time} className={style.input__date + " form-controler"} onChange={(event) => setState({ ...state, song: { ...state.song, release_time: event.target.value } })} />
+            <input type="file" name="file" id="file" className={style.uploadFile} onChange={handleUpload} />
+            <label for="file" className={style.uploadStyle}><i class="fa fa-cloud-upload-alt"></i> {upload.title}</label>
             <button className={style.btn__song} onClick={() => updateSong()}>Save</button>
             {state.message ? <Message message={state.message} typeMessage={state.type} closeMessage={closeMessage} /> : ''}
         </div>

@@ -4,6 +4,8 @@ import style from "./Musician.module.css";
 import { Link } from "react-router-dom";
 import { LIMIT_PAGE, LINK_API } from "../../const";
 import DeletePopup from "../DeletePopup/DeletePopup";
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 export default function Musician() {
 
@@ -25,16 +27,25 @@ export default function Musician() {
 
     useEffect(() => {
         getAllMusician();
+        let sock = new SockJS('http://localhost:8080/socket');
+        let stompClient = Stomp.over(sock);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/musician', function (result) {
+                if (result.body === "true") {
+                    getAllMusician();
+                }
+            });
+        });
     }, []);
 
     // RENDER LIST MUSICIAN
     const renderListMusician = () => {
 
         const totalPage = Math.ceil(listMusician.length / LIMIT_PAGE);
-        if (state.page > totalPage) {
+        if (state.page > totalPage && state.page > 1) {
             setState({ ...state, page: state.page - 1 });
         }
-        const lastPage = (state.page > totalPage ? state.page - 1 : state.page) * LIMIT_PAGE;
+        const lastPage = state.page * LIMIT_PAGE;
         const firstPage = lastPage - LIMIT_PAGE;
 
         return listMusician === '' ? <tr><td colSpan="4">Musician is empty.</td></tr> : listMusician.slice(firstPage, lastPage).map((item, index) => {

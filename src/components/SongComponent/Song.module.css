@@ -14,18 +14,18 @@
     font-size: 18px;
     margin: 0;
     padding: 5px 10px;
-    color: #E23229;
-    border-bottom: 1px solid #E23229;
+    color: #F15A35;
+    border-bottom: 1px solid #F15A35;
     margin-bottom: -1px;
     display: inline-block;
 }
 .song__title__add {
     padding-right: 10px;
-    color: #E23229;
+    color: #F15A35;
     font-size: 20px;
 }
 .song__title__add i {
-    color: #E23229;
+    color: #F15A35;
 }
 
 .song__table {
@@ -70,7 +70,7 @@
     100% {transform: scale(1);}
 }
 .song__table td i:hover {
-    color: #E23229;
+    color: #F15A35;
     cursor: pointer;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .btn__song {
-    background: #E23229;
+    background: #F15A35;
     color: #fff;
     margin-top: 5px;
     border: transparent;
@@ -190,7 +190,7 @@
     margin-top: 3px;
 }
 .song__select__add i {
-    color: #E23229;
+    color: #F15A35;
 }
 
 /* song DELETE */
@@ -304,4 +304,52 @@
 }
 .song__detail_info_right {
     width: calc(100% - 120px);
+}
+
+.uploadFile {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.uploadStyle {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    display: block;
+    padding: 5px;
+    margin: 0 auto;
+    margin-top: 4px;
+    text-align: center;
+    transition: background 0.5s;
+}
+.uploadStyle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* SEARCH */
+
+.search__container {
+    margin: 10px 0;
+    display: flex;
+    position: relative;
+}
+.search__input {
+    width: 100%;
+    padding: 7px;
+    color: #fff;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border: transparent;
+    
+}
+.search__btn {
+    background: transparent;
+    color: #F15A35;
+    border: transparent;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }

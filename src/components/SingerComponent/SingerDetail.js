@@ -4,6 +4,7 @@ import style from "./Singer.module.css";
 import { Link } from "react-router-dom";
 import { LIMIT_PAGE, LINK_API } from "../../const";
 import DeletePopup from "../DeletePopup/DeletePopup";
+import Play from '../PlayComponent/Play';
 
 export default function SingerDetail(props) {
 
@@ -44,10 +45,10 @@ export default function SingerDetail(props) {
     // RENDER LIST SONG
     const renderListSong = () => {
         const totalPage = Math.ceil(listSong.length / LIMIT_PAGE);
-        if (state.page > totalPage) {
+        if (state.page > totalPage && state.page > 1) {
             setState({ ...state, page: state.page - 1 });
         }
-        const lastPage = (state.page > totalPage ? state.page - 1 : state.page) * LIMIT_PAGE;
+        const lastPage = state.page * LIMIT_PAGE;
         const firstPage = lastPage - LIMIT_PAGE;
 
         return listSong === '' ? <tr><td colSpan="4">Singer has no song yet.</td></tr> : listSong.slice(firstPage, lastPage).map((item, index) => {

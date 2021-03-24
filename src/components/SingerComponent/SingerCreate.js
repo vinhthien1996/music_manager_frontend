@@ -12,7 +12,7 @@ export default function SingerCreate(props) {
         if (!state.singer.singer_name) {
             setState({ ...state, message: "Singer name is not null!", type: "error" });
         } else if (!state.singer.singer_sex || state.singer.singer_sex === 'None') {
-            setState({ ...state, message: "Singer sex not yet selected!", type: "error" });
+            setState({ ...state, message: "Singer gender not yet selected!", type: "error" });
         } else if (!state.singer.singer_date) {
             setState({ ...state, message: "Singer birthday is not null!", type: "error" });
         } else {

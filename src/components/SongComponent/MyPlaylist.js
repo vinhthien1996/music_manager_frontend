@@ -3,12 +3,17 @@ import React, { useState, useEffect } from 'react';
 import style from "./Song.module.css";
 import { LIMIT_PAGE, LINK_API } from "../../const";
 import PlaylistPopup from "../DeletePopup/PlaylistPopup";
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import Play from '../PlayComponent/Play';
 
 export default function MyPlaylist(props) {
     const [listSong, setListSong] = useState([]);
     const [arrange, setArrange] = useState({ value: 'song_name', orderBy: true });
     const [stateLoading, setStateLoading] = useState(true);
     const [state, setState] = useState({ song: '', isActive: false, page: 1 });
+    const [playing, setPlaying] = useState(false);
+    const [play, setPlay] = useState({ mp3: '/mp3/HappyNewYear.mp3', song_name: '', singer_name: '', favorite: false });
 
     const getAllSong = () => {
         axios.get(`${LINK_API}/api/song/favorite`)
@@ -18,12 +23,6 @@ export default function MyPlaylist(props) {
                     setStateLoading(false);
                 }, 100);
             })
-            .catch(err => console.log(err));
-    }
-
-    const getPage = () => {
-        axios.get(`${LINK_API}/api/song/page-favorite/${LIMIT_PAGE}`)
-            .then(result => setState({ ...state, page_size: result.data.page }))
             .catch(err => console.log(err));
     }
 
@@ -48,8 +47,16 @@ export default function MyPlaylist(props) {
     }
 
     useEffect(() => {
-        getPage();
         getAllSong();
+        let sock = new SockJS('http://localhost:8080/socket');
+        let stompClient = Stomp.over(sock);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/song', function (result) {
+                if (result.body === "true") {
+                    getAllSong();
+                }
+            });
+        });
     }, []);
 
     const formatDate = (date) => {
@@ -93,26 +100,44 @@ export default function MyPlaylist(props) {
     }
 
     const renderListSong = () => {
-
         const totalPage = Math.ceil(listSong.length / LIMIT_PAGE);
-        if (state.page > totalPage) {
+        if (state.page > totalPage && state.page > 1) {
             setState({ ...state, page: state.page - 1 });
         }
-        const lastPage = (state.page > totalPage ? state.page - 1 : state.page) * LIMIT_PAGE;
+        const lastPage = state.page * LIMIT_PAGE;
         const firstPage = lastPage - LIMIT_PAGE;
-        return listSong === '' ? <tr><td colSpan="8">Song is empty.</td></tr> : arrangeList(listSong.slice(firstPage, lastPage)).map((item, index) => {
+        return listSong === '' ? <tr><td colSpan="9">Song is empty.</td></tr> : arrangeList(listSong.slice(firstPage, lastPage)).map((item, index) => {
             return <tr key={index}><td>{item.song_name}</td>
                 <td>{formatDate(item.release_time)}</td>
                 <td>{item.genre_name}</td>
                 <td>{item.musician_name}</td>
                 <td>{item.singer_name}</td>
-                <td><i className="fa fa-heart" style={{ color: item.favorite ? '#f75252' : '#fff' }} onClick={() => setState({ ...state, song: item, isActive: true })}></i></td>
+                <td><i className="fa fa-heart" style={{ color: item.favorite ? '#ff2a68' : '#fff' }} onClick={() => setState({ ...state, song: item, isActive: true })}></i></td>
+                <td>{
+                    play.song_name === item.song_name ?
+                        <i class="fa fa-stop-circle" onClick={() => {
+                            setPlay({ ...play, mp3: '', song_name: '', singer_name: '', favorite: false });
+                            setPlaying(false);
+                        }}></i>
+                        :
+                        item.url === null ? '' : <i className="fa fa-play-circle" onClick={() => {
+                            setPlaying(false);
+                            setPlay({ ...play, url: item.url, song_name: item.song_name, singer_name: item.singer_name, favorite: item.favorite });
+                            setPlaying(true);
+                        }}></i>
+                }</td>
             </tr>;
         })
     }
 
     const closePopup = () => {
         setState({ ...state, isActive: false })
+    }
+
+    // CLOSE PLAY SONG
+    const closePlay = () => {
+        setPlaying(false);
+        setPlay({ mp3: '', song_name: '', singer_name: '', favorite: false });
     }
 
     const addFavoriteSong = () => {
@@ -138,18 +163,20 @@ export default function MyPlaylist(props) {
                         {stateLoading ? '' :
                             <tr>
                                 <th width="20%" onClick={() => setArrange({ ...arrange, value: 'song_name', orderBy: arrange.value !== 'song_name' ? true : !arrange.orderBy })}>Song Name {arrange.value === 'song_name' ? (arrange.orderBy ? <i class="fa fa-angle-up"></i> : <i class="fa fa-angle-down"></i>) : ''}</th>
-                                <th width="15%" onClick={() => setArrange({ ...arrange, value: 'release_time', orderBy: arrange.value !== 'release_time' ? true : !arrange.orderBy })}>Release Time {arrange.value === 'release_time' ? (arrange.orderBy ? <i class="fa fa-angle-up"></i> : <i class="fa fa-angle-down"></i>) : ''}</th>
+                                <th width="10%" onClick={() => setArrange({ ...arrange, value: 'release_time', orderBy: arrange.value !== 'release_time' ? true : !arrange.orderBy })}>Release Time {arrange.value === 'release_time' ? (arrange.orderBy ? <i class="fa fa-angle-up"></i> : <i class="fa fa-angle-down"></i>) : ''}</th>
                                 <th width="20%" onClick={() => setArrange({ ...arrange, value: 'genre_name', orderBy: arrange.value !== 'genre_name' ? true : !arrange.orderBy })}>Genre {arrange.value === 'genre_name' ? (arrange.orderBy ? <i class="fa fa-angle-up"></i> : <i class="fa fa-angle-down"></i>) : ''}</th>
                                 <th width="20%" onClick={() => setArrange({ ...arrange, value: 'musician_name', orderBy: arrange.value !== 'musician_name' ? true : !arrange.orderBy })}>Musician {arrange.value === 'musician_name' ? (arrange.orderBy ? <i class="fa fa-angle-up"></i> : <i class="fa fa-angle-down"></i>) : ''}</th>
                                 <th width="20%" onClick={() => setArrange({ ...arrange, value: 'singer_name', orderBy: arrange.value !== 'singer_name' ? true : !arrange.orderBy })}>Singer {arrange.value === 'singer_name' ? (arrange.orderBy ? <i class="fa fa-angle-up"></i> : <i class="fa fa-angle-down"></i>) : ''}</th>
                                 <th width="5%"></th>
+                                <th width="5%"></th>
                             </tr>}
                     </thead>
                     <tbody>
-                        {stateLoading ? <tr><td colSpan="8" style={{ textAlign: 'center' }}><i className="fa fa-spinner"></i> Loading Song...</td></tr> : renderListSong()}
+                        {stateLoading ? <tr><td colSpan="9" style={{ textAlign: 'center' }}><i className="fa fa-spinner"></i> Loading Song...</td></tr> : renderListSong()}
                     </tbody>
                 </table>
                 {stateLoading || <div className={style.song__page}>{listSong !== '' ? renderPage() : ''}</div>}
+                {playing && <Play data={play} close={closePlay} />}
             </div>
         </>
     )

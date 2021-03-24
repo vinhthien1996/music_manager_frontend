@@ -1,4 +1,82 @@
 .play__container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
+    /* background: rgba(255, 255, 255, 0.2); */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.3), transparent);
+    color: #fff;
+    margin-top: 10px;
+    padding: 5px 10px;
+    animation: intro 0.7s 1 ease-in-out;
+    transition: transform 0.5s;
+    border-top: 1px solid #333;
+}
+.play__container:hover {
+    transform: scale(1.005);
+}
+@keyframes intro {
+    0% {bottom: -100px; opacity: 0;}
+    100% { bottom: 0px; opacity: 1;}
+}
+
+.play__content {
     width: 80%;
     margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.play__control {
+    width: 100px;
+    /* width: 20%; */
+    font-size: 40px;
+}
+.play__time {
+    width: calc(65% - 100px);
+    display: flex;
+}
+.play__time__item {
+    padding: 0 10px;
+}
+.play__control i {
+    margin: 0 10px;
+    transition: color 0.5s;
+}
+.play__control i:hover {
+    color: #F15A35;
+}
+.play__info {
+    padding: 10px;
+    max-width: 35%;
+    text-align: right;
+}
+.play__info__title {
+    font-weight: 500;
+    color: #F15A35;
+}
+.play__info__singer {
+    color: #fff;
+}
+.play__label {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.play__label i {
+    padding: 0 5px;
+    transition: color 0.5s;
+}
+.play__label i:hover {
+    color: #F15A35;
+}
+.play__ticket {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.play__ticket img {
+    width: 40px;
 }

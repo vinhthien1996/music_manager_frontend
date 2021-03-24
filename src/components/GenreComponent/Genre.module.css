@@ -14,18 +14,18 @@
     font-size: 18px;
     margin: 0;
     padding: 5px 10px;
-    color: #E23229;
-    border-bottom: 1px solid #E23229;
+    color: #F15A35;
+    border-bottom: 1px solid #F15A35;
     margin-bottom: -1px;
     display: inline-block;
 }
 .genre__title__add {
     padding-right: 10px;
-    color: #E23229;
+    color: #F15A35;
     font-size: 20px;
 }
 .genre__title__add i {
-    color: #E23229;
+    color: #F15A35;
 }
 
 .genre__table {
@@ -57,7 +57,7 @@
     transition: color 0.3s;
 }
 .genre__table td i:hover {
-    color: #E23229;
+    color: #F15A35;
 }
 
 /* GENRE EDIT */
@@ -117,7 +117,7 @@
 }
 
 .btn__genre {
-    background: #E23229;
+    background: #F15A35;
     color: #fff;
     margin-top: 5px;
     border: transparent;

@@ -4,6 +4,8 @@ import style from "./Singer.module.css";
 import { Link } from "react-router-dom";
 import { LIMIT_PAGE, LINK_API } from "../../const";
 import DeletePopup from "../DeletePopup/DeletePopup";
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 export default function Singer() {
 
@@ -25,16 +27,25 @@ export default function Singer() {
 
     useEffect(() => {
         getAllSinger();
+        let sock = new SockJS('http://localhost:8080/socket');
+        let stompClient = Stomp.over(sock);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/singer', function (result) {
+                if (result.body === "true") {
+                    getAllSinger();
+                }
+            });
+        });
     }, []);
 
     // RENDER LIST SINGER
     const renderListSinger = () => {
 
         const totalPage = Math.ceil(listSinger.length / LIMIT_PAGE);
-        if (state.page > totalPage) {
+        if (state.page > totalPage && state.page > 1) {
             setState({ ...state, page: state.page - 1 });
         }
-        const lastPage = (state.page > totalPage ? state.page - 1 : state.page) * LIMIT_PAGE;
+        const lastPage = state.page * LIMIT_PAGE;
         const firstPage = lastPage - LIMIT_PAGE;
 
         return listSinger === '' ? <tr><td colSpan="4">Singer is empty.</td></tr> : listSinger.slice(firstPage, lastPage).map((item, index) => {

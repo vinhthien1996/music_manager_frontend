@@ -12,7 +12,7 @@ export default function MusicianCreate(props) {
         if (!state.musician.musician_name) {
             setState({ ...state, message: "Musician name is not null!", type: "error" });
         } else if (!state.musician.musician_sex || state.musician.musician_sex === 'None') {
-            setState({ ...state, message: "Musician sex not yet selected!", type: "error" });
+            setState({ ...state, message: "Musician gender not yet selected!", type: "error" });
         } else if (!state.musician.musician_date) {
             setState({ ...state, message: "Musician birthday is not null!", type: "error" });
         } else {

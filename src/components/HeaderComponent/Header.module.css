@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
 .header {
     /* background: #F15A35; */
-    background: #E23229;
+    /* background: #E23229; */
+    background: linear-gradient(-45deg, #ff5a3a, #ff2a68);
     padding: 8px;
     color: #fff;
     width: 100%;
@@ -15,6 +18,7 @@
     width: 50px;
 }
 .header__title {
+    font-family: 'Poppins', sans-serif !important;
     width: 250px;
     color: #333;
     font-weight: 600;

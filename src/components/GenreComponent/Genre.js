@@ -4,6 +4,8 @@ import style from "./Genre.module.css";
 import DeletePopup from "../DeletePopup/DeletePopup";
 import { Link } from "react-router-dom";
 import { LIMIT_PAGE, LINK_API } from "../../const";
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 export default function Genre() {
 
@@ -59,6 +61,15 @@ export default function Genre() {
 
     useEffect(() => {
         getAllGenre();
+        let sock = new SockJS('http://localhost:8080/socket');
+        let stompClient = Stomp.over(sock);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/genre', function (result) {
+                if (result.body === "true") {
+                    getAllGenre();
+                }
+            });
+        });
     }, []);
 
     // CLOSE POPUP
@@ -70,10 +81,10 @@ export default function Genre() {
     const renderListGenre = () => {
 
         const totalPage = Math.ceil(listGenre.length / LIMIT_PAGE);
-        if (state.page > totalPage) {
+        if (state.page > totalPage && state.page > 1) {
             setState({ ...state, page: state.page - 1 });
         }
-        const lastPage = (state.page > totalPage ? state.page - 1 : state.page) * LIMIT_PAGE;
+        const lastPage = state.page * LIMIT_PAGE;
         const firstPage = lastPage - LIMIT_PAGE;
 
         return listGenre === '' ? <tr><td colSpan="4">Genre is empty.</td></tr> : listGenre.slice(firstPage, lastPage).map((item, index) => {
