@@ -4,7 +4,6 @@ import style from "./Singer.module.css";
 import { Link } from "react-router-dom";
 import { LIMIT_PAGE, LINK_API } from "../../const";
 import DeletePopup from "../DeletePopup/DeletePopup";
-import Play from '../PlayComponent/Play';
 
 export default function SingerDetail(props) {
 
@@ -117,8 +116,8 @@ export default function SingerDetail(props) {
             <div className={style.singer__container}>
                 <div className={style.singer__title}>
                     <h2>
-                        <i className="fa fa-user"></i> Singer Detail
-                </h2>
+                        <i class="fa fa-microphone-alt"></i> Singer Detail
+                    </h2>
                     <div className={style.singer__title__add}>
                         <Link to='/singer'>
                             <i className="fa fa-arrow-right"></i>

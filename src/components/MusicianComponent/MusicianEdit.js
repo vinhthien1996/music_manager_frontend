@@ -57,7 +57,7 @@ export default function MusicianEdit(props) {
         <div className={style.musician__container}>
             <div className={style.musician__title}>
                 <h2>
-                    <i className="fa fa-align-justify"></i> Edit Musician
+                    <i className="fab fa-itunes-note"></i> Edit Musician
                 </h2>
                 <div className={style.musician__title__add}>
                     <Link to='/musician'>

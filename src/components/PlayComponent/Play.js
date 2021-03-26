@@ -101,7 +101,7 @@ export default function Play(props) {
                     <div className={style.play__info__title}>
                         <i className="fab fa-itunes-note"></i> {props.data.song_name}
                     </div>
-                    <div className={style.play__info__singer}>{props.data.singer_name}</div>
+                    <div className={style.play__info__singer}><i class="fa fa-microphone-alt"></i> {props.data.singer_name}</div>
                 </div>
                 <div className={style.play__label}>
                     <i className="fa fa-heart" style={{ color: props.data.favorite ? '#f75252' : '#fff' }}></i>

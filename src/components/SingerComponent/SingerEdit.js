@@ -57,7 +57,7 @@ export default function SingerEdit(props) {
         <div className={style.singer__container}>
             <div className={style.singer__title}>
                 <h2>
-                    <i className="fa fa-align-justify"></i> Edit Singer
+                    <i class="fa fa-microphone-alt"></i> Edit Singer
                 </h2>
                 <div className={style.singer__title__add}>
                     <Link to='/singer'>

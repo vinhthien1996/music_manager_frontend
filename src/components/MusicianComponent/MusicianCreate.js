@@ -40,7 +40,7 @@ export default function MusicianCreate(props) {
         <div className={style.musician__container}>
             <div className={style.musician__title}>
                 <h2>
-                    <i className="fa fa-align-justify"></i> Add Musician
+                    <i className="fab fa-itunes-note"></i> Add Musician
                 </h2>
                 <div className={style.musician__title__add}>
                     <Link to={props.location.state ? props.location.state.linkBack : '/musician'}>

@@ -40,7 +40,7 @@ export default function SingerCreate(props) {
         <div className={style.singer__container}>
             <div className={style.singer__title}>
                 <h2>
-                    <i className="fa fa-align-justify"></i> Add Singer
+                    <i class="fa fa-microphone-alt"></i> Add Singer
                 </h2>
                 <div className={style.singer__title__add}>
                     <Link to={props.location.state ? props.location.state.linkBack : '/singer'}>

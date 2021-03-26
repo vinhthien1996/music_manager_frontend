@@ -14,7 +14,9 @@ export default function MyPlaylist(props) {
     const [state, setState] = useState({ song: '', isActive: false, page: 1 });
     const [playing, setPlaying] = useState(false);
     const [play, setPlay] = useState({ mp3: '/mp3/HappyNewYear.mp3', song_name: '', singer_name: '', favorite: false });
+    const [listSearch, setListSearch] = useState([]);
 
+    // GET ALL SONG
     const getAllSong = () => {
         axios.get(`${LINK_API}/api/song/favorite`)
             .then(result => {
@@ -26,8 +28,14 @@ export default function MyPlaylist(props) {
             .catch(err => console.log(err));
     }
 
+    // RENDER PAGE
     const renderPage = () => {
-        const page_size = Math.ceil(listSong.length / LIMIT_PAGE);
+        let data = listSong;
+        if(listSearch.length > 0) {
+            data = listSearch;
+        }
+
+        const page_size = Math.ceil(data.length / LIMIT_PAGE);
 
         let content = [];
         if (state.page > 1) {
@@ -46,6 +54,7 @@ export default function MyPlaylist(props) {
         return content;
     }
 
+    // COMPONENT DID MOUNT
     useEffect(() => {
         getAllSong();
         let sock = new SockJS('http://localhost:8080/socket');
@@ -59,6 +68,7 @@ export default function MyPlaylist(props) {
         });
     }, []);
 
+    // FORMAT DATE
     const formatDate = (date) => {
         const year = date.substring(0, 4);
         const month = date.substring(5, 7);
@@ -66,6 +76,7 @@ export default function MyPlaylist(props) {
         return day + "/" + month + "/" + year;
     }
 
+    // ARRANGE LIST
     const arrangeList = (list) => {
         return list.sort((a, b) => {
             let fa, fb;
@@ -99,20 +110,26 @@ export default function MyPlaylist(props) {
         });
     }
 
+    // RENDER LIST SONG
     const renderListSong = () => {
-        const totalPage = Math.ceil(listSong.length / LIMIT_PAGE);
+        let data = listSong;
+        if(listSearch.length > 0) {
+            data = listSearch;
+        }
+
+        const totalPage = Math.ceil(data.length / LIMIT_PAGE);
         if (state.page > totalPage && state.page > 1) {
             setState({ ...state, page: state.page - 1 });
         }
         const lastPage = state.page * LIMIT_PAGE;
         const firstPage = lastPage - LIMIT_PAGE;
-        return listSong === '' ? <tr><td colSpan="9">Song is empty.</td></tr> : arrangeList(listSong.slice(firstPage, lastPage)).map((item, index) => {
+        return data === '' ? <tr><td colSpan="9">Song is empty.</td></tr> : arrangeList(data.slice(firstPage, lastPage)).map((item, index) => {
             return <tr key={index}><td>{item.song_name}</td>
                 <td>{formatDate(item.release_time)}</td>
                 <td>{item.genre_name}</td>
                 <td>{item.musician_name}</td>
                 <td>{item.singer_name}</td>
-                <td><i className="fa fa-heart" style={{ color: item.favorite ? '#ff2a68' : '#fff' }} onClick={() => setState({ ...state, song: item, isActive: true })}></i></td>
+                <td><i className="fa fa-heart" style={{ color: item.favorite ? '#ff3b59' : '#fff' }} onClick={() => setState({ ...state, song: item, isActive: true })}></i></td>
                 <td>{
                     play.song_name === item.song_name ?
                         <i class="fa fa-stop-circle" onClick={() => {
@@ -130,6 +147,7 @@ export default function MyPlaylist(props) {
         })
     }
 
+    // CLOSE POPUP
     const closePopup = () => {
         setState({ ...state, isActive: false })
     }
@@ -140,6 +158,7 @@ export default function MyPlaylist(props) {
         setPlay({ mp3: '', song_name: '', singer_name: '', favorite: false });
     }
 
+    // ADD FAVORITE SONG
     const addFavoriteSong = () => {
         axios.get(`${LINK_API}/api/song/favorite/${state.song.song_id}`)
             .then(result => {
@@ -149,14 +168,53 @@ export default function MyPlaylist(props) {
             .catch(err => console.log(err));
     }
 
+    // CONVERT UTF-8 TO UNICODE
+    function convertVN(str) {
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+        str = str.replace(/đ/g,"d");
+        str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+        str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+        str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+        str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+        str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+        str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+        str = str.replace(/Đ/g, "D");
+    
+        str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, "");
+        str = str.replace(/\u02C6|\u0306|\u031B/g, "");
+        str = str.replace(/ + /g," ");
+        str = str.trim();
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+        return str;
+    }
+
+    //SEARCH
+    const searchSong = (event) => {
+        const list = listSong.filter(item => {
+            return convertVN(item.song_name.toLowerCase()).indexOf(convertVN(event.target.value.toLowerCase())) > -1;
+        });
+        setListSearch(list);
+        if(list.length > 0 && event.target.value !== '') {
+            setState({ ...state, page: 1 });
+        }
+    }
+
     return (
         <>
             {state.isActive ? <PlaylistPopup data={{ name: state.song.song_name }} deleteData={addFavoriteSong} closePopup={closePopup} /> : ''}
             <div className={style.song__container}>
                 <div className={style.song__title}>
                     <h2>
-                        <i className="fa fa-home"></i> My Playlist
+                        <i className="fa fa-headphones-alt"></i> My Playlist
                     </h2>
+                </div>
+                <div className={style.search__container}>
+                    <input type="text" className={style.search__input} placeholder="Search by song name" onChange={searchSong} />
                 </div>
                 <table className={style.song__table}>
                     <thead>

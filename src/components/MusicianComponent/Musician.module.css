@@ -6,18 +6,29 @@
 
 .musician__title {
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
 }
 .musician__title h2 {
     font-size: 18px;
     margin: 0;
-    padding: 5px 10px;
+    padding: 5px 15px;
     color: #F15A35;
     border-bottom: 1px solid #F15A35;
     margin-bottom: -1px;
     display: inline-block;
+    position: relative;
+}
+.musician__title h2::after {
+    content: '';
+    height: 5px;
+    width: 5px;
+    background: #fff;
+    position: absolute;
+    bottom: -2.5px;
+    right: 0;
+    border-radius: 50%;
 }
 .musician__title__add {
     padding-right: 10px;

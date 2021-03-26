@@ -21,7 +21,7 @@ export default function Header() {
                         <li><i className="fab fa-itunes-note"></i> Musician</li>
                     </NavLink>
                     <NavLink activeClassName={style.header__active} to='/singer'>
-                        <li><i className="fa fa-user"></i> Singer</li>
+                        <li><i class="fa fa-microphone-alt"></i> Singer</li>
                     </NavLink>
                     <NavLink activeClassName={style.header__active} to='/playlist'>
                         <li><i className="fa fa-headphones-alt"></i> My Playlist</li>

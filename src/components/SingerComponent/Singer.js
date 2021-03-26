@@ -108,7 +108,7 @@ export default function Singer() {
             <div className={style.singer__container}>
                 <div className={style.singer__title}>
                     <h2>
-                        <i className="fab fa-itunes-note"></i> Singer
+                        <i class="fa fa-microphone-alt"></i> Singer
                 </h2>
                     <div className={style.singer__title__add}>
                         <Link to='/singer/create'>

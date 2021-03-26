@@ -103,7 +103,7 @@ export default function Song(props) {
                     </Link>
                 </td>
                 <td><i className="fa fa-trash" onClick={() => setState({ ...state, song: item, isActive: true })}></i></td>
-                <td><i className="fa fa-heart" style={{ color: item.favorite ? '#ff2a68' : '#fff' }} onClick={() => addFavoriteSong(item.song_id)}></i></td>
+                <td><i className="fa fa-heart" style={{ color: item.favorite ? '#ff3b59' : '#fff' }} onClick={() => addFavoriteSong(item.song_id)}></i></td>
                 <td>{
                     play.song_name === item.song_name ?
                         <i class="fa fa-stop-circle" onClick={() => {
@@ -150,6 +150,7 @@ export default function Song(props) {
             .catch(err => console.log(err));
     }
 
+    // CONVERT UTF-8 TO UNICODE
     function convertVN(str) {
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
         str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
@@ -180,7 +181,7 @@ export default function Song(props) {
             return convertVN(item.song_name.toLowerCase()).indexOf(convertVN(event.target.value.toLowerCase())) > -1;
         });
         setListSearch(list);
-        if(list.length > 0 && event.target.value != '') {
+        if(list.length > 0 && event.target.value !== '') {
             setState({ ...state, page: 1 });
         }
     }
